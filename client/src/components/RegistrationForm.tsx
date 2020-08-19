@@ -54,13 +54,6 @@ const RegistrationForm = ({
 }: Props): JSX.Element => {
   const [revealPassword, setRevealPassword] = useState(false);
   const [state, setState] = useState(initialState);
-  // const [name, setName] = useState("");
-  // const [surname, setSurname] = useState("");
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [birthdate, setBirthdate] = useState("");
-  // const [gender, setGender] = useState("");
 
   const daysInMonth = (month: any) => new Date(2019, month, 0).getDate();
 
@@ -183,10 +176,10 @@ const RegistrationForm = ({
         >
           <TextInput
             plain
+            name="password"
             type={revealPassword ? "text" : "password"}
             value={password}
             onChange={handleChange}
-            name="password"
           />
           <Button
             icon={

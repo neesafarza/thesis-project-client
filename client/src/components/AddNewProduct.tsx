@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Text } from "grommet";
 import { AddCircle } from "grommet-icons";
-import history from "../utils/history";
+import { useHistory } from "react-router-dom";
 
 function AddNewProduct() {
+  let history = useHistory();
+
   return (
     <Box
       height="small"

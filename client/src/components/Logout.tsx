@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Button } from "grommet";
 import { connect } from "react-redux";
-import history from "../utils/history";
-
+import { useHistory } from "react-router-dom";
 type Props = {
   isAuthenticated: boolean;
   setIsAuthenticated: (b: boolean) => void;
@@ -12,14 +11,15 @@ const Logout = ({
   isAuthenticated,
   setIsAuthenticated,
 }: Props): JSX.Element => {
+  let history = useHistory();
+
   const handleLogoutClick = () => {
-    alert("Logout has been clicked!");
+    alert("You are being logged out!");
     removeToken();
     handleAuth();
   };
 
   const handleLoginClick = () => {
-    alert("Login has been clicked!");
     history.push("/login");
   };
 

@@ -2,31 +2,25 @@ import React from "react";
 import { Box, Button, Grommet, Heading } from "grommet";
 import AppBar from "../components/AppBar";
 import LoginForm from "../components/LoginForm";
-import { Notification } from "grommet-icons";
-
-const theme = {
-  global: {
-    colors: {
-      brand: "pink",
-    },
-    font: {
-      family: "Roboto",
-      size: "18px",
-      height: "20px",
-    },
-  },
-};
+import { Home } from "grommet-icons";
+import { useHistory } from "react-router-dom";
 
 function Login() {
+  let history = useHistory();
   return (
-    <Grommet theme={theme} full>
+    <Grommet full>
       <Box fill>
         <AppBar>
           Hello There!
           <Heading level="3" margin="none">
             Login Page
           </Heading>
-          <Button icon={<Notification />} onClick={() => {}} />
+          <Button
+            icon={<Home />}
+            onClick={() => {
+              history.push("/home");
+            }}
+          />
         </AppBar>
 
         <Box

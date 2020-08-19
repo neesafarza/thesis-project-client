@@ -1,49 +1,58 @@
 import React from "react";
 import { Box, Button, Grommet, Heading } from "grommet";
 import AppBar from "../components/AppBar";
-import { Home } from "grommet-icons";
-import history from "../utils/history";
+import { Cart, Home } from "grommet-icons";
 import Logout from "../components/Logout";
 import UserProductsGallery from "../containers/UserProductsGallery";
+import { connect } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 
-const theme = {
-  global: {
-    colors: {
-      brand: "purple",
-    },
-    font: {
-      family: "Roboto",
-      size: "18px",
-      height: "20px",
-    },
-  },
+type Props = {
+  isAuthenticated: boolean;
 };
 
-function UserGallery() {
-  // const [productsData, setProductData] = useState(productsData);
-  // productsData = [];
+const UserGallery = ({ isAuthenticated }: Props): JSX.Element => {
+  let history = useHistory();
 
-  return (
-    <Grommet theme={theme}>
-      <Box fill>
-        <AppBar>
-          Hello There!
-          <Heading level="3" margin="none">
-            User Gallery
-          </Heading>
-          <Logout />
-          <Button
-            icon={<Home />}
-            onClick={() => {
-              history.push("/home");
-            }}
-          />
-        </AppBar>
-        <h1>Gallery Name</h1>
-        <UserProductsGallery />
-      </Box>
-    </Grommet>
-  );
-}
+  if (isAuthenticated) {
+    return (
+      <Grommet>
+        <Box fill>
+          <AppBar>
+            Hello There!
+            <Heading level="3" margin="none">
+              User Gallery
+            </Heading>
+            <Logout />
+            <Button
+              icon={<Home />}
+              onClick={() => {
+                history.push("/home");
+              }}
+            />
+            <Button
+              icon={<Cart />}
+              onClick={() => {
+                history.push("/");
+              }}
+            />
+          </AppBar>
+          <Box>
+            <h1> Gallery</h1>
+            <UserProductsGallery />
+          </Box>
+        </Box>
+      </Grommet>
+    );
+  } else {
+    return <Redirect to={{ pathname: "/login" }} />;
+  }
+};
 
-export default UserGallery;
+const mapStateToProps = (state: any) => {
+  return {
+    isAuthenticated: state.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps, null)(UserGallery);

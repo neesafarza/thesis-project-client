@@ -8,9 +8,11 @@ import {
   Text,
   TextInput,
 } from "grommet";
+
 import { Hide, View } from "grommet-icons";
 import { connect } from "react-redux";
 import ApiService from "../ApiService/ApiService";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   isAuthenticated: boolean;
@@ -25,8 +27,10 @@ const LoginForm = ({
   isAuthenticated,
   setIsAuthenticated,
 }: Props): JSX.Element => {
+  let history = useHistory();
   const [revealPassword, setRevealPassword] = useState(false);
   const [state, setState] = useState(initialState);
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -45,10 +49,10 @@ const LoginForm = ({
       alert(`${res.message}`);
       setState(initialState);
     } else {
-      const { accessToken } = res;
+      const accessToken = res;
       localStorage.setItem("accessToken", accessToken);
       setIsAuthenticated(true);
-      window.location.replace("http://localhost:3000/home");
+      history.push("/usergallery");
     }
   };
 
@@ -93,10 +97,10 @@ const LoginForm = ({
         >
           <TextInput
             plain
+            name="password"
             type={revealPassword ? "text" : "password"}
             value={state.password}
             onChange={handleChange}
-            name="password"
           />
           <Button
             icon={
