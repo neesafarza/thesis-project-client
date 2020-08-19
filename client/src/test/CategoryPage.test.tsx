@@ -7,11 +7,16 @@ import { MockProducts } from "./mocks/mock-products";
 import { mockCategories } from "./mocks/mockCategories";
 import UserGalleryProductCard from "../components/UserGalleryProductCard";
 
+import ApiService from "../ApiService/ApiService";
+
+
 const renderCategoryPage = () => {}
 
-// const mockApiService = jasmine.createSpyObj('apiService', ['getProductsForCategory']);
-
 describe("<CategoryPage />", () => {
+
+  // mockService.spyOn(ApiService, 'getProductsForCategory')
+
+  global.fetch = jest.fn().mockImplementation(() => new Promise(res => res()));
 
   let category: Category;
   let productList: Product[];
@@ -22,22 +27,28 @@ describe("<CategoryPage />", () => {
 
   let component: ReactTestRenderer;
 
-  beforeEach(() => {
+  jest.mock('../ApiService/ApiService', () => {
+    return {
+      getProductsForCategory: jest.fn(() => new Promise(res => res(productList)))
+    }
+  })
+
+  beforeEach( () => {
     category = Object.create(mockCategories[0]);
     productList = Object.create(MockProducts);
     component = create(<CategoryPage category={category}/>)
-    // mockApiService.getProductsForCategory.and.returnValue(productList)
-    updateElements();
+    updateElements()
   });
 
   const updateElements = () => {
     pageHeaderEl = component.root.findByProps({className: 'category-header'})
   }
   test("should create", () => {
-    
+    expect(component).toBeTruthy();
   })
 
   test("should display correctly", () => {
+      // expect(ApiService.getProductsForCategory).toHaveBeenCalledTimes(1);
       expect(pageHeaderEl.children[0]).toEqual(category.name)
       // check page header is correct for category input
       // check that dashboard has same number of products as input data
